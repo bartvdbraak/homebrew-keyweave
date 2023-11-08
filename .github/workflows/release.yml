@@ -13,4 +13,5 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - run: 'echo ${{ inputs.version }}'
-      - run: 'echo ${{ inputs.sha256sums }}'
+      - run: |
+          echo ${{ fromJson(inputs.sha256sums)['keyweave-x86_64-unknown-linux-musl.tar.xz'] }}
