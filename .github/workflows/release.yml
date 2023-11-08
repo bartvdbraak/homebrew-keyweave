@@ -8,10 +8,80 @@ on:
       sha256sums:
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest 
+    env: 
+      CI_COMMIT_MESSAGE: 'feat: added formula for v${{ inputs.version }}'
+      CI_COMMIT_AUTHOR: github-actions[bot]
     steps:
-      - run: 'echo ${{ inputs.version }}'
-      - run: |
-          echo ${{ fromJson(inputs.sha256sums)['keyweave-x86_64-unknown-linux-musl.tar.xz'] }}
+      - uses: actions/checkout@v4
+      - name: Generate Homebrew Formula
+        id: generate-formula
+        run: |
+          # Create a temporary formula file
+          TMP_FORMULA="$(mktemp)"
+          
+          # Define the formula content with GitHub expressions
+          cat <<EOF > "${TMP_FORMULA}"
+          class Keyweave < Formula
+            desc "Fetches secrets from Azure Key Vault and weaves them into a convenient .env file"
+            homepage "https://github.com/bartvdbraak/keyweave"
+            license "GPLv3"
+            version "${{ inputs.version }}"
+
+            option "with-gnu-libc", "Install glibc binary"
+            option "with-musl-libc", "Install musl binary (default)"
+
+            if OS.mac?
+              if Hardware::CPU.arm?
+                url "https://github.com/bartvdbraak/keyweave/releases/download/v${{ inputs.version }}/keyweave-aarch64-apple-darwin.tar.xz"
+                sha256 "${{ fromJson(inputs.sha256sums)['keyweave-aarch64-apple-darwin.tar.xz'] }}"
+              else
+                url "https://github.com/bartvdbraak/keyweave/releases/download/v${{ inputs.version }}/keyweave-x86_64-apple-darwin.tar.xz"
+                sha256 "${{ fromJson(inputs.sha256sums)['keyweave-x86_64-apple-darwin.tar.xz'] }}"
+              end
+            elif OS.linux?
+              if Hardware::CPU.arm?
+                if Hardware::CPU.is_32_bit?
+                  url "https://github.com/bartvdbraak/keyweave/releases/download/v${{ inputs.version }}/keyweave-armv7-unknown-linux-gnueabihf.tar.xz"
+                  sha256 "${{ fromJson(inputs.sha256sums)['keyweave-armv7-unknown-linux-gnueabihf.tar.xz'] }}"
+                else  
+                  url "https://github.com/bartvdbraak/keyweave/releases/download/v${{ inputs.version }}/keyweave-aarch64-unknown-linux-gnu.tar.xz"
+                  sha256 "${{ fromJson(inputs.sha256sums)['keyweave-aarch64-unknown-linux-gnu.tar.xz'] }}"
+                end
+              else      
+                if build.with?("with-gnu-libc")
+                  url "https://github.com/bartvdbraak/keyweave/releases/download/v${{ inputs.version }}/keyweave-x86_64-unknown-linux-gnu.tar.xz"
+                  sha256 "${{ fromJson(inputs.sha256sums)['keyweave-x86_64-unknown-linux-gnu.tar.xz'] }}"
+                elsif build.with?("with-musl-libc")
+                  url "https://github.com/bartvdbraak/keyweave/releases/download/v${{ inputs.version }}/keyweave-x86_64-unknown-linux-musl.tar.xz"
+                  sha256 "${{ fromJson(inputs.sha256sums)['keyweave-x86_64-unknown-linux-musl.tar.xz'] }}"
+                else
+                  url "https://github.com/bartvdbraak/keyweave/releases/download/v${{ inputs.version }}/keyweave-x86_64-unknown-linux-musl.tar.xz"
+                  sha256 "${{ fromJson(inputs.sha256sums)['keyweave-x86_64-unknown-linux-musl.tar.xz'] }}"
+                end
+              end
+            end
+
+            def install
+              bin.install "keyweave"
+            end
+          end
+          EOF
+
+          # Append the generated formula to the target file
+          cat "${TMP_FORMULA}" > "Formula/keyweave.rb"
+
+          # Clean up the temporary formula file
+          rm "${TMP_FORMULA}"
+
+      - name: Commit Homebrew Formula
+        run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "bartvdbraak@users.noreply.github.com"
+          git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
+          git push
