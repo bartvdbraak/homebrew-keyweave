@@ -1,0 +1,16 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+      sha256sums:
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest 
+    steps:
+      - run: 'echo ${{ inputs.version }}'
+      - run: 'echo ${{ inputs.sha256sums }}'
