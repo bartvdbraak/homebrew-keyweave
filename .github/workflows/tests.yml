@@ -1,0 +1,40 @@
+name: End-to-end tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "Formula/keyweave.rb"
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-22.04
+          - ubuntu-20.04
+          - macos-13
+          - macos-12
+          - macos-11
+
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+
+    steps:
+      - name: Check if Homebrew is installed
+        run: |
+          if ! command -v brew &> /dev/null
+          then
+              echo "Homebrew not found, installing..."
+              /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          else
+              echo "Homebrew is already installed."
+          fi
+
+      - name: Verify Homebrew installation
+        run: | 
+          brew tap bartvdbraak/keyweave
+          brew install keyweave
