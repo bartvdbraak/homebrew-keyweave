@@ -1,5 +1,7 @@
 # Homebrew Keyweave Formula
 
+[![End-to-end tests](https://github.com/bartvdbraak/homebrew-keyweave/actions/workflows/tests.yml/badge.svg)](https://github.com/bartvdbraak/homebrew-keyweave/actions/workflows/tests.yml)
+
 ## Description
 
 This Homebrew formula provides a convenient way to install [Keyweave](https://github.com/bartvdbraak/keyweave) on macOS and Linux systems. Keyweave is a tool that fetches secrets from Azure Key Vault and weaves them into a convenient .env file. This formula supports multiple architectures and libc variations, making it versatile for various system configurations.

@@ -9,7 +9,7 @@ on:
       - "Formula/keyweave.rb"
 
 jobs:
-  test:
+  hosted:
     strategy:
       matrix:
         os:
@@ -21,21 +21,37 @@ jobs:
 
     name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
 
     steps:
-      - name: Check if Homebrew is installed
+      - name: Check installation using Homebrew
         run: |
           if ! command -v brew &> /dev/null
           then
               echo "Homebrew not found, installing..."
               /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+              (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bashrc
+              eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
           else
               echo "Homebrew is already installed."
           fi
-
-      - name: Verify Homebrew installation
-        run: | 
           brew tap bartvdbraak/keyweave
           brew install keyweave
           keyweave --version
+  emulated:
+    name: Test on raspios-lite
+    runs-on: ubuntu-latest
+  
+    steps:
+      - uses: pguyot/arm-runner-action@v2.5.2
+        with:
+          commands: |
+            if ! command -v brew &> /dev/null
+            then
+                echo "Homebrew not found, installing..."
+                su pi -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            else
+                echo "Homebrew is already installed."
+            fi
+            su pi -c /usr/local/bin/brew tap bartvdbraak/keyweave
+            su pi -c /usr/local/bin/brew install keyweave
+            su pi -c keyweave --version
