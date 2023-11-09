@@ -15,7 +15,7 @@ class Keyweave < Formula
       url "https://github.com/bartvdbraak/keyweave/releases/download/vv0.2.1/keyweave-x86_64-apple-darwin.tar.xz"
       sha256 "3bee0c6ade49af5b86d1b7bdcdaa2d2c2388e8c3a58089bafb4fbda4efdb87b8"
     end
-  elif OS.linux?
+  elsif OS.linux?
     if Hardware::CPU.arm?
       if Hardware::CPU.is_32_bit?
         url "https://github.com/bartvdbraak/keyweave/releases/download/vv0.2.1/keyweave-armv7-unknown-linux-gnueabihf.tar.xz"

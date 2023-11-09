@@ -44,7 +44,7 @@ jobs:
                 url "https://github.com/bartvdbraak/keyweave/releases/download/v${{ inputs.version }}/keyweave-x86_64-apple-darwin.tar.xz"
                 sha256 "${{ fromJson(inputs.sha256sums)['keyweave-x86_64-apple-darwin.tar.xz'] }}"
               end
-            elif OS.linux?
+            elsif OS.linux?
               if Hardware::CPU.arm?
                 if Hardware::CPU.is_32_bit?
                   url "https://github.com/bartvdbraak/keyweave/releases/download/v${{ inputs.version }}/keyweave-armv7-unknown-linux-gnueabihf.tar.xz"
