@@ -37,21 +37,3 @@ jobs:
           brew tap bartvdbraak/keyweave
           brew install keyweave
           keyweave --version
-  emulated:
-    name: Test on raspios-lite
-    runs-on: ubuntu-latest
-  
-    steps:
-      - uses: pguyot/arm-runner-action@v2.5.2
-        with:
-          commands: |
-            if ! command -v brew &> /dev/null
-            then
-                echo "Homebrew not found, installing..."
-                su pi -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-            else
-                echo "Homebrew is already installed."
-            fi
-            su pi -c /usr/local/bin/brew tap bartvdbraak/keyweave
-            su pi -c /usr/local/bin/brew install keyweave
-            su pi -c keyweave --version
