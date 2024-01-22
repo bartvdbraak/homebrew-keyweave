@@ -10,30 +10,30 @@ class Keyweave < Formula
   if OS.mac?
     if Hardware::CPU.arm?
       url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.4/keyweave-aarch64-apple-darwin.tar.xz"
-      sha256 "31849f5746de73023885617a4daad7723b7cb57db87a75ac392f3d32a3463e69"
+      sha256 "a880adaa757120fd42a1f13796946610f1fe381b58e7e26c71e2dca53b8b5471"
     else
       url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.4/keyweave-x86_64-apple-darwin.tar.xz"
-      sha256 "eb49217ca753cba5dc99095686beef0691325cb70f235fc4ae0f893a749d26a0"
+      sha256 "090570cc80840d6aa75fd5b7d8d3db07e7dcbae5eb87e4cc056731583950eafb"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
       if Hardware::CPU.is_32_bit?
         url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.4/keyweave-armv7-unknown-linux-gnueabihf.tar.xz"
-        sha256 "24e2ef1631264213d7fdfd320c0321e76c882e3def0fc68042280066e6a22526"
+        sha256 "9e85a8be920f28f917f4927aa5fa9632ceda5c92de2a35ce6faad66768ce0cde"
       else  
         url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.4/keyweave-aarch64-unknown-linux-gnu.tar.xz"
-        sha256 "dfda55b192ab09378338fa7f03d6d85c2f0c50313e7cbbaa536bd3e99d8defd8"
+        sha256 "5f436bd444b98a593cd14c37b12647d45c58610959fc8ea7c8e6d7fac70f6660"
       end
     else      
       if build.with?("with-gnu-libc")
         url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.4/keyweave-x86_64-unknown-linux-gnu.tar.xz"
-        sha256 "daebe9267b134dae12bc93e4a2e4715d5921d21b366bad7cc796de2bb9e8cfd5"
+        sha256 "75db375f3beb890125b60da042c6c29263515227b513b9adec270eeffe4241c5"
       elsif build.with?("with-musl-libc")
         url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.4/keyweave-x86_64-unknown-linux-musl.tar.xz"
-        sha256 "0b144c2c587dc4180afcf2d61dd63cf5a1f9a0e483a1d5740869e706ab340bfd"
+        sha256 "15d46f0755cbcb5e79cb3fa6a8eae4978afddf5981bf3ed11fea6f29b122d5a9"
       else
         url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.4/keyweave-x86_64-unknown-linux-musl.tar.xz"
-        sha256 "0b144c2c587dc4180afcf2d61dd63cf5a1f9a0e483a1d5740869e706ab340bfd"
+        sha256 "15d46f0755cbcb5e79cb3fa6a8eae4978afddf5981bf3ed11fea6f29b122d5a9"
       end
     end
   end
