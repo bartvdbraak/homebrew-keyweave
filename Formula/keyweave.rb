@@ -2,38 +2,38 @@ class Keyweave < Formula
   desc "Fetches secrets from Azure Key Vault and weaves them into a convenient .env file"
   homepage "https://github.com/bartvdbraak/keyweave"
   license "GPLv3"
-  version "0.2.5"
+  version "0.2.6"
 
   option "with-gnu-libc", "Install glibc binary"
   option "with-musl-libc", "Install musl binary (default)"
 
   if OS.mac?
     if Hardware::CPU.arm?
-      url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.5/keyweave-aarch64-apple-darwin.tar.xz"
-      sha256 "f9da3c84c972e4cc009366b1c421c37bd9e344f30c16b307b45ea3cabf82954b"
+      url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.6/keyweave-aarch64-apple-darwin.tar.xz"
+      sha256 "72fa1cfcbd95bed95f1e6c75891ca3ce3b652e2496f2bc24d72259790ed472d7"
     else
-      url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.5/keyweave-x86_64-apple-darwin.tar.xz"
-      sha256 "de3b8248c1f73719a11a23626d492a5f2a3f543657c35fbb321c745043569d77"
+      url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.6/keyweave-x86_64-apple-darwin.tar.xz"
+      sha256 "3b58115dc53f0e1ee056185383cd8cb5eb5c8e8329fe107e2de1d1bbeaa71822"
     end
   elsif OS.linux?
     if Hardware::CPU.arm?
       if Hardware::CPU.is_32_bit?
-        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.5/keyweave-armv7-unknown-linux-gnueabihf.tar.xz"
-        sha256 "c44949983155f7c567ff31dd3d08f069422a121ca7fab5b6a2bbc917a728ae22"
+        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.6/keyweave-armv7-unknown-linux-gnueabihf.tar.xz"
+        sha256 "bcfb366456fe129e109dd4c4496dfff6f71bd00e79ffd0c4b77749cac6c8430d"
       else  
-        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.5/keyweave-aarch64-unknown-linux-gnu.tar.xz"
-        sha256 "74693a91c19621d908f38d570fc4502f5de55c8241758d54c891db48ae8dbe58"
+        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.6/keyweave-aarch64-unknown-linux-gnu.tar.xz"
+        sha256 "4bcacaa94cc4350854cec2e1c210f3174d7d42fe4d97a357a0d45c0ac18bbe06"
       end
     else      
       if build.with?("with-gnu-libc")
-        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.5/keyweave-x86_64-unknown-linux-gnu.tar.xz"
-        sha256 "e142d7dad14760a0db822d59680afe3cc0ff1214ba85375c30a8998715a4b5cd"
+        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.6/keyweave-x86_64-unknown-linux-gnu.tar.xz"
+        sha256 "d2edcbc3a2c68cee7ac7988155caebe9959d3186dc8be37ce4361733b7de21ef"
       elsif build.with?("with-musl-libc")
-        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.5/keyweave-x86_64-unknown-linux-musl.tar.xz"
-        sha256 "5c8df2a7cc1f31028ba8833b5778efceacc2f7ee27479955522fa7212ad57dc6"
+        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.6/keyweave-x86_64-unknown-linux-musl.tar.xz"
+        sha256 "c02c3e319055dbe0b62724ca51aa5a54581d8dd37c32ed003c4d9e05f249bbee"
       else
-        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.5/keyweave-x86_64-unknown-linux-musl.tar.xz"
-        sha256 "5c8df2a7cc1f31028ba8833b5778efceacc2f7ee27479955522fa7212ad57dc6"
+        url "https://github.com/bartvdbraak/keyweave/releases/download/v0.2.6/keyweave-x86_64-unknown-linux-musl.tar.xz"
+        sha256 "c02c3e319055dbe0b62724ca51aa5a54581d8dd37c32ed003c4d9e05f249bbee"
       end
     end
   end
